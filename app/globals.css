@@ -126,3 +126,26 @@
     cursor: pointer;
   }
 }
+
+/* styles.css */
+@layer utilities {
+  @keyframes zoom-horizontal {
+    0% {
+      transform: scaleX(1);
+    }
+
+    50% {
+      transform: scaleX(0.5);
+    }
+
+    100% {
+      transform: scaleX(1);
+    }
+  }
+
+  .zoom-animation:after {
+    animation: zoom-horizontal 1s infinite;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-out;
+  }
+}

@@ -18,9 +18,12 @@ export default function Page() {
 
     return parts.map((part, i) =>
       regex.test(part) ? (
-        <mark key={i} className="bg-yellow-300 text-black font-semibold">
+        <span
+          key={i}
+          className="text-yellow-300 zoom-animation whitespace-pre relative after:h-px after:right-0 after:absolute after:w-full after:-bottom-1 after:bg-yellow-300 after:whitespace-pre"
+        >
           {part}
-        </mark>
+        </span>
       ) : (
         part
       ),
@@ -41,7 +44,7 @@ export default function Page() {
       </div>
 
       <div>
-        <p className="leading-7 [&:not(:first-child)]:mt-6">{getHighlightedText()}</p>
+        <p className="leading-7">{getHighlightedText()}</p>
       </div>
     </Card>
   );
