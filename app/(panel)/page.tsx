@@ -1,5 +1,5 @@
+import { AddCoinForm } from "@/app/(panel)/_components/add-coin-form";
 import { CoinTable } from "@/app/(panel)/_components/coin-table";
-import { Button } from "@/components/ui/button";
 
 export default function Page() {
   return (
@@ -7,7 +7,7 @@ export default function Page() {
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">Coins</h1>
 
-        <Button>Add</Button>
+        <AddCoinForm />
       </div>
 
       <CoinTable />
