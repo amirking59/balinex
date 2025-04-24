@@ -3,7 +3,7 @@ class BaseApi {
   private baseUrl: string;
 
   private constructor() {
-    this.baseUrl = "/api";
+    this.baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL!;
   }
 
   public static getInstance(): BaseApi {
@@ -19,7 +19,7 @@ class BaseApi {
       ...(options.headers || {}),
     };
 
-    const response = await fetch(endpoint, {
+    const response = await fetch(endpoint.startsWith("/") ? `${this.baseUrl}${endpoint}` : endpoint, {
       ...options,
       headers,
       signal: AbortSignal.timeout(15000),

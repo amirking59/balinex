@@ -1,14 +1,15 @@
 import BaseApi from "@/lib/api";
+import { Coin } from "@/services/Coin";
 import { NextResponse } from "next/server";
 
 const api = BaseApi.getInstance();
 
 export async function GET() {
   try {
-    const response = await api.request(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd`, {
+    const response = await api.request<Coin[]>(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd`, {
       headers: {
         "accept": "application/json",
-        "x-cg-demo-api-key": process.env.coin_gecko_api_key!,
+        "x-cg-demo-api-key": process.env.COIN_GECKO_API_TOKEN!,
       },
       next: {
         revalidate: 60,
