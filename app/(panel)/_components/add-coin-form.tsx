@@ -3,11 +3,38 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { toast } from "sonner";
+
+const formSchema = z.object({
+  name: z.string().min(2).max(50),
+  symbol: z.string().min(2).max(50),
+  id: z.string().min(2).max(50),
+  slug: z.string().min(2).max(50),
+});
 
 const AddCoinForm = () => {
   const [open, setOpen] = useState(false);
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      id: "",
+      name: "",
+      slug: "",
+      symbol: "",
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    toast("Coin added successfully!", {
+      description: `Coin ${values.name} (${values.symbol}) has been added.`,
+    });
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -19,30 +46,72 @@ const AddCoinForm = () => {
         <DialogHeader>
           <DialogTitle>Add New Coin</DialogTitle>
         </DialogHeader>
-        <form className="space-y-3 pt-2">
-          <div className="space-y-2">
-            <Label htmlFor="name">Coin Name</Label>
-            <Input id="name" name="name" placeholder="Bitcoin" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="symbol">Symbol</Label>
-            <Input id="symbol" name="symbol" placeholder="BTC" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="id">ID</Label>
-            <Input id="id" name="id" placeholder="bitcoin" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="slug">Slug</Label>
-            <Input id="slug" name="slug" placeholder="bitcoin" />
-          </div>
-          <div className="flex justify-end gap-2 pt-2">
-            <Button type="button" variant="outline" onClick={() => setOpen(false)}>
-              Cancel
-            </Button>
-            <Button type="submit">Save</Button>
-          </div>
-        </form>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3 pt-2">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Coin Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Bitcoin" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="symbol"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Symbol</FormLabel>
+                  <FormControl>
+                    <Input placeholder="BTC" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="id"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>ID</FormLabel>
+                  <FormControl>
+                    <Input placeholder="bitcoin" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="slug"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Slug</FormLabel>
+                  <FormControl>
+                    <Input placeholder="bitcoin" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className="flex justify-end gap-2 pt-2">
+              <Button type="button" variant="outline" onClick={() => setOpen(false)}>
+                Cancel
+              </Button>
+              <Button type="submit">Save</Button>
+            </div>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );
