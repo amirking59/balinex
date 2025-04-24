@@ -27,6 +27,8 @@ class BaseApi {
 
     if (!response.ok) {
       const errorData = await response.json();
+
+      console.error(errorData);
       throw new Error(errorData.message || "API error");
     }
 
