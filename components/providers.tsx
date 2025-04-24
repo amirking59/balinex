@@ -25,10 +25,12 @@ export default function Providers({ children }: ProvidersProps) {
   );
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
+        {children}
 
-      <Toaster />
-    </ThemeProvider>
+        <Toaster />
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }

@@ -21,7 +21,7 @@ const CoinTable = () => {
 
   if (!coins) return <Skeleton className="h-[500px] w-full" />;
 
-  return <DataTable columns={columns} data={coins} />;
+  return <DataTable columns={columns} data={coins} showPagination />;
 };
 
 export { CoinTable };
