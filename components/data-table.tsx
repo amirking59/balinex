@@ -1,24 +1,40 @@
 "use client";
 
-import { ColumnDef, flexRender, getCoreRowModel, getPaginationRowModel, useReactTable } from "@tanstack/react-table";
+import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
+  useReactTable,
+} from "@tanstack/react-table";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Label } from "@radix-ui/react-label";
 import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { DataTableSortHeader } from "@/components/data-table-sort-header";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   showPagination?: boolean;
+  defaultSort?: SortingState;
 }
 
-export function DataTable<TData, TValue>({ columns, data, showPagination }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+  showPagination,
+  defaultSort,
+}: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: showPagination ? getPaginationRowModel() : undefined,
     initialState: {
       pagination: showPagination
@@ -27,6 +43,7 @@ export function DataTable<TData, TValue>({ columns, data, showPagination }: Data
             pageSize: 10,
           }
         : undefined,
+      sorting: defaultSort || [],
     },
   });
 
@@ -40,7 +57,9 @@ export function DataTable<TData, TValue>({ columns, data, showPagination }: Data
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
-                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                      <DataTableSortHeader column={header.column}>
+                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                      </DataTableSortHeader>
                     </TableHead>
                   );
                 })}
