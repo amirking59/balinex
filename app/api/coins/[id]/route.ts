@@ -4,9 +4,11 @@ import { NextResponse } from "next/server";
 
 const api = BaseApi.getInstance();
 
-export async function GET() {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+
   try {
-    const response = await api.request<Coin[]>("https://api.coingecko.com/api/v3/coins/list", {
+    const response = await api.request<Coin>(`https://api.coingecko.com/api/v3/coins/${id}`, {
       headers: {
         "accept": "application/json",
         "x-cg-demo-api-key": process.env.coin_gecko_api_key!,
@@ -16,7 +18,7 @@ export async function GET() {
       },
     });
 
-    return NextResponse.json(response.slice(0, 50));
+    return NextResponse.json(response);
   } catch (error) {
     console.error(error);
 
