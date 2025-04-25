@@ -104,14 +104,14 @@ export default function Page() {
               <CardTitle>Market Information</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {coinDetail.genesis_date != null && (
+              {coinDetail.market_data.current_price != null && (
                 <div>
                   <h3 className="text-sm font-medium text-muted-foreground">Current Price</h3>
                   <IRTPrice priceInUSD={coinDetail.market_data.current_price.usd} />
                 </div>
               )}
 
-              {coinDetail.genesis_date != null && (
+              {coinDetail.market_data.market_cap != null && (
                 <div>
                   <h3 className="text-sm font-medium text-muted-foreground">Market Cap</h3>
                   <IRTPrice priceInUSD={coinDetail.market_data.market_cap.usd} />
