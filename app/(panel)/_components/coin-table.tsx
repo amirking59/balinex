@@ -1,7 +1,7 @@
 "use client";
 
 import { DataTable } from "@/components/data-table";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Coin, useGetCoins } from "@/services/Coin";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
@@ -57,7 +57,14 @@ const CoinTable = () => {
   const { data: coins } = useGetCoins();
   const router = useRouter();
 
-  if (!coins) return <Skeleton className="h-[500px] w-full" />;
+  if (!coins)
+    return (
+      <Card className="bg-background">
+        <CardHeader>
+          <CardTitle>Loading...</CardTitle>
+        </CardHeader>
+      </Card>
+    );
 
   return (
     <DataTable

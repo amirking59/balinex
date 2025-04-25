@@ -1,24 +1,8 @@
 import { Badge } from "@/components/ui/badge";
 import { CoinDetail } from "@/services/Coin";
 import Image from "next/image";
-import { Skeleton } from "@/components/ui/skeleton"; // Assuming a Skeleton component exists
 
-const CoinDetailHeader = ({ coinDetail }: { coinDetail?: CoinDetail }) => {
-  if (!coinDetail) {
-    return (
-      <div className="flex items-center gap-4">
-        <Skeleton className="h-16 w-16 rounded-full" />
-        <div>
-          <Skeleton className="h-8 w-32 mb-2" />
-          <div className="flex items-center gap-2">
-            <Skeleton className="h-6 w-16" />
-            <Skeleton className="h-6 w-24" />
-          </div>
-        </div>
-      </div>
-    );
-  }
-
+const CoinDetailHeader = ({ coinDetail }: { coinDetail: CoinDetail }) => {
   return (
     <div className="flex items-center gap-4">
       <div className="relative h-16 w-16 rounded-full overflow-hidden">
