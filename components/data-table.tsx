@@ -4,6 +4,7 @@ import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
+  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   SortingState,
@@ -16,19 +17,24 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeftIcon, ChevronRightIcon, ChevronsLeftIcon, ChevronsRightIcon } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { DataTableSortHeader } from "@/components/data-table-sort-header";
+import { DebouncedInput } from "@/components/ui/debounced-input";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   showPagination?: boolean;
   defaultSort?: SortingState;
+  showSearch?: boolean;
+  searchField?: string;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
   showPagination,
+  showSearch,
   defaultSort,
+  searchField = "name",
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -36,6 +42,7 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: showPagination ? getPaginationRowModel() : undefined,
+    getFilteredRowModel: showSearch ? getFilteredRowModel() : undefined,
     initialState: {
       pagination: showPagination
         ? {
@@ -44,11 +51,31 @@ export function DataTable<TData, TValue>({
           }
         : undefined,
       sorting: defaultSort || [],
+      columnFilters: [
+        {
+          id: searchField,
+          value: "",
+        },
+      ],
+    },
+    defaultColumn: {
+      enableSorting: false,
     },
   });
 
   return (
     <div>
+      {showSearch && table.getColumn(searchField) && (
+        <div className="p-1 mb-3 w-64">
+          <DebouncedInput
+            debounceMs={500}
+            placeholder="Search..."
+            value={table.getColumn(searchField)?.getFilterValue() as string}
+            onChange={(e) => table.getColumn(searchField)?.setFilterValue(e.target.value)}
+          />
+        </div>
+      )}
+
       <div className="rounded-md overflow-hidden border">
         <Table>
           <TableHeader>

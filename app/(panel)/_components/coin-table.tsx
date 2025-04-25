@@ -6,7 +6,7 @@ import { Coin, useGetCoins } from "@/services/Coin";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 
-export const columns: ColumnDef<Coin>[] = [
+const columns: ColumnDef<Coin>[] = [
   {
     size: 200,
     accessorKey: "name",
@@ -27,6 +27,7 @@ export const columns: ColumnDef<Coin>[] = [
     size: 50,
     accessorKey: "current_price",
     header: "Price",
+    enableSorting: true,
     cell: ({ row }) => {
       return <div className="text-sm">$ {row.original.current_price.toLocaleString()}</div>;
     },
@@ -35,6 +36,7 @@ export const columns: ColumnDef<Coin>[] = [
     size: 50,
     accessorKey: "market_cap",
     header: "Market Cap",
+    enableSorting: true,
     cell: ({ row }) => {
       return <div className="text-sm">$ {row.original.market_cap.toLocaleString()}</div>;
     },
@@ -43,6 +45,7 @@ export const columns: ColumnDef<Coin>[] = [
     size: 50,
     accessorKey: "total_volume",
     header: "Total Volume",
+    enableSorting: true,
     cell: ({ row }) => {
       return <div className="text-sm">$ {row.original.total_volume.toLocaleString()}</div>;
     },
@@ -54,7 +57,15 @@ const CoinTable = () => {
 
   if (!coins) return <Skeleton className="h-[500px] w-full" />;
 
-  return <DataTable columns={columns} data={coins} showPagination defaultSort={[{ desc: false, id: "name" }]} />;
+  return (
+    <DataTable
+      columns={columns}
+      data={coins}
+      showSearch
+      showPagination
+      defaultSort={[{ desc: false, id: "market_cap" }]}
+    />
+  );
 };
 
 export { CoinTable };
