@@ -2,6 +2,7 @@
 
 import { DataTable } from "@/components/data-table";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { formatNumber } from "@/lib/utils";
 import { Coin, useGetCoins } from "@/services/Coin";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
@@ -30,7 +31,7 @@ const columns: ColumnDef<Coin>[] = [
     header: "Price",
     enableSorting: true,
     cell: ({ row }) => {
-      return <div className="text-sm">$ {row.original.current_price.toLocaleString()}</div>;
+      return <div className="text-sm">$ {formatNumber(row.original.current_price)}</div>;
     },
   },
   {
@@ -39,7 +40,7 @@ const columns: ColumnDef<Coin>[] = [
     header: "Market Cap",
     enableSorting: true,
     cell: ({ row }) => {
-      return <div className="text-sm">$ {row.original.market_cap.toLocaleString()}</div>;
+      return <div className="text-sm">$ {formatNumber(row.original.market_cap)}</div>;
     },
   },
   {
@@ -48,7 +49,7 @@ const columns: ColumnDef<Coin>[] = [
     header: "Total Volume",
     enableSorting: true,
     cell: ({ row }) => {
-      return <div className="text-sm">$ {row.original.total_volume.toLocaleString()}</div>;
+      return <div className="text-sm">$ {formatNumber(row.original.total_volume)}</div>;
     },
   },
 ];
