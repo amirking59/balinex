@@ -62,7 +62,7 @@ export const useGetCoins = () => {
   });
 };
 
-export const useGetCoinDetail = (id: string) => {
+export const useGetCoinDetail = (id?: string) => {
   return useQuery({
     queryKey: ["coin", id],
     queryFn: async () => {
@@ -72,5 +72,6 @@ export const useGetCoinDetail = (id: string) => {
     },
     gcTime: 1000 * 60,
     staleTime: 1000 * 60,
+    enabled: !!id,
   });
 };

@@ -5,6 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Coin, useGetCoins } from "@/services/Coin";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const columns: ColumnDef<Coin>[] = [
   {
@@ -54,6 +55,7 @@ const columns: ColumnDef<Coin>[] = [
 
 const CoinTable = () => {
   const { data: coins } = useGetCoins();
+  const router = useRouter();
 
   if (!coins) return <Skeleton className="h-[500px] w-full" />;
 
@@ -64,6 +66,9 @@ const CoinTable = () => {
       showSearch
       showPagination
       defaultSort={[{ desc: false, id: "market_cap" }]}
+      onRowClick={(row) => {
+        router.push(`/coin/${row.id}`);
+      }}
     />
   );
 };

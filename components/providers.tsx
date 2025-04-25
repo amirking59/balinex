@@ -18,7 +18,7 @@ export default function Providers({ children }: ProvidersProps) {
             refetchOnMount: false,
             refetchOnReconnect: false,
             refetchOnWindowFocus: false,
-            retry: 0,
+            retry: 3,
           },
         },
       }),
