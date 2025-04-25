@@ -8,7 +8,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   const { id } = await params;
 
   try {
-    const response = await api.request<Coin>(`https://api.coingecko.com/api/v3/coins/${id}`, {
+    const response = await api.request<Coin>(`${process.env.NEXT_PUBLIC_COIN_GECKO_BASE_API_URL}/coins/${id}`, {
       headers: {
         "accept": "application/json",
         "x-cg-demo-api-key": process.env.COIN_GECKO_API_TOKEN!,
