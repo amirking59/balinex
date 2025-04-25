@@ -6,15 +6,18 @@ const api = BaseApi.getInstance();
 
 export async function GET() {
   try {
-    const response = await api.request<Coin[]>(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd`, {
-      headers: {
-        "accept": "application/json",
-        "x-cg-demo-api-key": process.env.COIN_GECKO_API_TOKEN!,
+    const response = await api.request<Coin[]>(
+      `${process.env.NEXT_PUBLIC_COIN_GECKO_BASE_API_URL}/coins/markets?vs_currency=usd`,
+      {
+        headers: {
+          "accept": "application/json",
+          "x-cg-demo-api-key": process.env.COIN_GECKO_API_TOKEN!,
+        },
+        next: {
+          revalidate: 60,
+        },
       },
-      next: {
-        revalidate: 60,
-      },
-    });
+    );
 
     return NextResponse.json(response);
   } catch (error) {

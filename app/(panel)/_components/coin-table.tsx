@@ -1,10 +1,12 @@
 "use client";
 
 import { DataTable } from "@/components/data-table";
-import { Skeleton } from "@/components/ui/skeleton";
+import { IRTPrice } from "@/components/irt-price";
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Coin, useGetCoins } from "@/services/Coin";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const columns: ColumnDef<Coin>[] = [
   {
@@ -29,7 +31,7 @@ const columns: ColumnDef<Coin>[] = [
     header: "Price",
     enableSorting: true,
     cell: ({ row }) => {
-      return <div className="text-sm">$ {row.original.current_price.toLocaleString()}</div>;
+      return <IRTPrice priceInUSD={row.original.current_price} />;
     },
   },
   {
@@ -38,7 +40,7 @@ const columns: ColumnDef<Coin>[] = [
     header: "Market Cap",
     enableSorting: true,
     cell: ({ row }) => {
-      return <div className="text-sm">$ {row.original.market_cap.toLocaleString()}</div>;
+      return <IRTPrice priceInUSD={row.original.market_cap} />;
     },
   },
   {
@@ -47,15 +49,23 @@ const columns: ColumnDef<Coin>[] = [
     header: "Total Volume",
     enableSorting: true,
     cell: ({ row }) => {
-      return <div className="text-sm">$ {row.original.total_volume.toLocaleString()}</div>;
+      return <IRTPrice priceInUSD={row.original.total_volume} />;
     },
   },
 ];
 
 const CoinTable = () => {
   const { data: coins } = useGetCoins();
+  const router = useRouter();
 
-  if (!coins) return <Skeleton className="h-[500px] w-full" />;
+  if (!coins)
+    return (
+      <Card className="bg-background">
+        <CardHeader>
+          <CardTitle>Loading...</CardTitle>
+        </CardHeader>
+      </Card>
+    );
 
   return (
     <DataTable
@@ -64,6 +74,9 @@ const CoinTable = () => {
       showSearch
       showPagination
       defaultSort={[{ desc: false, id: "market_cap" }]}
+      onRowClick={(row) => {
+        router.push(`/coin/${row.id}`);
+      }}
     />
   );
 };
