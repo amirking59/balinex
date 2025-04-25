@@ -1,8 +1,8 @@
 "use client";
 
 import { DataTable } from "@/components/data-table";
+import { IRTPrice } from "@/components/irt-price";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import { formatNumber } from "@/lib/utils";
 import { Coin, useGetCoins } from "@/services/Coin";
 import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
@@ -31,7 +31,7 @@ const columns: ColumnDef<Coin>[] = [
     header: "Price",
     enableSorting: true,
     cell: ({ row }) => {
-      return <div className="text-sm">$ {formatNumber(row.original.current_price)}</div>;
+      return <IRTPrice priceInUSD={row.original.current_price} />;
     },
   },
   {
@@ -40,7 +40,7 @@ const columns: ColumnDef<Coin>[] = [
     header: "Market Cap",
     enableSorting: true,
     cell: ({ row }) => {
-      return <div className="text-sm">$ {formatNumber(row.original.market_cap)}</div>;
+      return <IRTPrice priceInUSD={row.original.market_cap} />;
     },
   },
   {
@@ -49,7 +49,7 @@ const columns: ColumnDef<Coin>[] = [
     header: "Total Volume",
     enableSorting: true,
     cell: ({ row }) => {
-      return <div className="text-sm">$ {formatNumber(row.original.total_volume)}</div>;
+      return <IRTPrice priceInUSD={row.original.total_volume} />;
     },
   },
 ];

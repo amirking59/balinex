@@ -1,5 +1,5 @@
 import BaseApi from "@/lib/api";
-import { Coin } from "@/services/Coin";
+import { CoinDetail } from "@/services/Coin";
 import { NextResponse } from "next/server";
 
 const api = BaseApi.getInstance();
@@ -8,8 +8,8 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
   const { id } = await params;
 
   try {
-    const response = await api.request<Coin>(
-      `${process.env.NEXT_PUBLIC_COIN_GECKO_BASE_API_URL}/coins/${id}?developer_data=false&community_data=false&market_data=false&tickers=false&localization=false`,
+    const response = await api.request<CoinDetail>(
+      `${process.env.NEXT_PUBLIC_COIN_GECKO_BASE_API_URL}/coins/${id}?community_data=false&localization=false`,
       {
         headers: {
           "accept": "application/json",

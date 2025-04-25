@@ -45,6 +45,14 @@ export interface CoinDetail {
   watchlist_portfolio_users: number;
   market_cap_rank: number;
   last_updated: number;
+  market_data: {
+    current_price: {
+      usd: number;
+    };
+    market_cap: {
+      usd: number;
+    };
+  };
 }
 
 const api = BaseApi.getInstance();
@@ -73,5 +81,29 @@ export const useGetCoinDetail = (id?: string) => {
     gcTime: 1000 * 60,
     staleTime: 1000 * 60,
     enabled: !!id,
+  });
+};
+
+interface GetIRTToUSDExchangeRateResponse {
+  status: string;
+  lastUpdate: number;
+  lastTradePrice: string;
+  asks: number[][];
+  bids: number[][];
+}
+
+export const useGetIRTToUSDExchangeRate = () => {
+  return useQuery({
+    queryKey: ["irt_to_usd_exchange_rate"],
+    queryFn: async () => {
+      const response = await api.request<GetIRTToUSDExchangeRateResponse>(
+        `${process.env.NEXT_PUBLIC_NOBITEX_BASE_API_URL}/orderbook/USDTIRT`,
+      );
+
+      return +response?.lastTradePrice;
+    },
+    gcTime: 1000 * 60,
+    staleTime: 1000 * 60,
+    refetchInterval: 1000 * 60,
   });
 };
