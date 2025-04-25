@@ -22,7 +22,7 @@ class BaseApi {
     const response = await fetch(endpoint.startsWith("/") ? `${this.baseUrl}${endpoint}` : endpoint, {
       ...options,
       headers,
-      signal: AbortSignal.timeout(15000),
+      signal: AbortSignal.timeout(50000),
     });
 
     if (!response.ok) {
