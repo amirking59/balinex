@@ -100,7 +100,7 @@ export const useGetIRTToUSDExchangeRate = () => {
         `${process.env.NEXT_PUBLIC_NOBITEX_BASE_API_URL}/orderbook/USDTIRT`,
       );
 
-      return +response?.lastTradePrice;
+      return +response?.lastTradePrice / 10;
     },
     gcTime: 1000 * 60,
     staleTime: 1000 * 60,

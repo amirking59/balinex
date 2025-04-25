@@ -10,6 +10,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import dayjs from "dayjs";
 import { CoinDetailHeader } from "@/app/(panel)/coin/[id]/_components/coin-detail-header";
+import { IRTPrice } from "@/components/irt-price";
 
 export default function Page() {
   const { id } = useParams();
@@ -93,6 +94,27 @@ export default function Page() {
                 <div>
                   <h3 className="text-sm font-medium text-muted-foreground">Watchlist Users</h3>
                   <p>{formatNumber(coinDetail.watchlist_portfolio_users)}</p>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Market Information</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {coinDetail.genesis_date != null && (
+                <div>
+                  <h3 className="text-sm font-medium text-muted-foreground">Current Price</h3>
+                  <IRTPrice priceInUSD={coinDetail.market_data.current_price.usd} />
+                </div>
+              )}
+
+              {coinDetail.genesis_date != null && (
+                <div>
+                  <h3 className="text-sm font-medium text-muted-foreground">Market Cap</h3>
+                  <IRTPrice priceInUSD={coinDetail.market_data.market_cap.usd} />
                 </div>
               )}
             </CardContent>

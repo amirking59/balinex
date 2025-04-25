@@ -10,7 +10,7 @@ const IRTPrice = ({ priceInUSD }: IRTPriceProps) => {
   const { data: exchangeRate } = useGetIRTToUSDExchangeRate();
 
   if (exchangeRate == null) {
-    return <Skeleton className="h-4 w-16" />;
+    return <Skeleton className="h-5 w-16" />;
   }
 
   return <div className="text-sm">{formatNumber(priceInUSD * exchangeRate)} IRT</div>;
