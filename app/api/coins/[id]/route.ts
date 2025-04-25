@@ -11,7 +11,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ id: 
     const response = await api.request<Coin>(`https://api.coingecko.com/api/v3/coins/${id}`, {
       headers: {
         "accept": "application/json",
-        "x-cg-demo-api-key": process.env.coin_gecko_api_key!,
+        "x-cg-demo-api-key": process.env.COIN_GECKO_API_TOKEN!,
       },
       next: {
         revalidate: 60,

@@ -9,23 +9,26 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
   symbol: z.string().min(2).max(50),
   id: z.string().min(2).max(50),
-  slug: z.string().min(2).max(50),
+  image: z.string().min(2).max(50),
 });
 
 const AddCoinForm = () => {
   const [open, setOpen] = useState(false);
+
+  const queryClient = useQueryClient();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       id: "",
       name: "",
-      slug: "",
+      image: "",
       symbol: "",
     },
   });
@@ -34,6 +37,12 @@ const AddCoinForm = () => {
     toast("Coin added successfully!", {
       description: `Coin ${values.name} (${values.symbol}) has been added.`,
     });
+
+    queryClient.invalidateQueries({
+      queryKey: ["coins"],
+    });
+
+    setOpen(false);
   }
 
   return (
@@ -92,12 +101,12 @@ const AddCoinForm = () => {
 
             <FormField
               control={form.control}
-              name="slug"
+              name="image"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Slug</FormLabel>
+                  <FormLabel>Image</FormLabel>
                   <FormControl>
-                    <Input placeholder="bitcoin" {...field} />
+                    <Input placeholder="bitcoin.png" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
